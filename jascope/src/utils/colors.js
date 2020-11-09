@@ -1,0 +1,1 @@
+export let primaryOrange = '#FF7E20';
