@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
-
+// Redux
+import store from './store';
+import { Provider } from 'react-redux';
 // Routes
 import Login from './components/Login';
 import RegisterEnterprise from './components/RegisterEnterprise';
@@ -36,11 +38,13 @@ class App extends Component {
 
     render(){
       return (
-        <BrowserRouter>
-          <Switch>
-            <GuestContainer/>
-          </Switch>
-        </BrowserRouter>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Switch>
+              <GuestContainer/>
+            </Switch>
+          </BrowserRouter>
+        </Provider>
       );
     }
 }

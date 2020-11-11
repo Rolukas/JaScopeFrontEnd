@@ -6,7 +6,7 @@ export const getUrl = () => {
     let API;
 
     if( appMode === 'PRODUCTION' ){
-        API = 'http://localhost:3002/api'
+        API = 'https://jascope-backend.herokuapp.com/api/'
     } else {
         API = 'http://localhost:3002/api'
     }

@@ -1,0 +1,1 @@
+export const GET_USER_CONFIG = "GET_USER_CONFIG";

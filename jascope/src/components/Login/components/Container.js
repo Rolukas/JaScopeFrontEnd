@@ -15,6 +15,9 @@ import loading from '../../../assets/loading.json';
 // API
 import API from '../../../utils/environment';
 import encryptor from '../../../utils/ecrypt';
+// Redux
+import { setUserConfig } from '../redux/action';
+import store from '../../../store';
 
 
 const styles = {
@@ -96,6 +99,7 @@ class LoginContainer extends Component{
         this.onChange = this.onChange.bind(this);
         this.openSnackbar = this.openSnackbar.bind(this);
         this.closeSnackbar = this.closeSnackbar.bind(this);
+        this.goToRegister = this.goToRegister.bind(this);
     }
 
     componentDidMount(){
@@ -127,7 +131,9 @@ class LoginContainer extends Component{
     }
 
     goToRegister(){
-
+        this.props.history.push({ 
+            pathname: '/register-user', 
+        });  
     }
 
     onLogin = async() => {
@@ -144,25 +150,48 @@ class LoginContainer extends Component{
             var password = pw;
             const usernamePasswordBuffer = Buffer.from(username + ':' + password);
             const base64data = usernamePasswordBuffer.toString('base64');
-            const encryptedBase64Data = encryptor(base64data.toString());
 
-            console.log(encryptedBase64Data)
+    
     
             let request = await API.API_URL.get('/login', {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${encryptedBase64Data}`,
+                    'Authorization': `Basic ${base64data}`,
                 }
             });
 
             if(request.data.success === true){
-                // Save headers
-                API.setAPIHeadersConfiguration(encryptedBase64Data);
-                // Go to main
 
-                //this.props.history.push('/documentacion');
+                // User needs profile
+                if(request.data.message === 'user without profile'){
+                    this.props.history.push({ 
+                        pathname: '/choose-profile', 
+                        state: {
+                            userInformation: { usuarioid: request.data.items.[0].usuarioid }
+                        }
+                    });
+                } else {
+                    // Save headers
+                    API.setAPIHeadersConfiguration(base64data);
+                    // Go to main
+
+                    let data = request.data.items;
+                    let userInformation = {
+                        usuarioid: data.userInfo.usuarioid,
+                        nombre: data.userInfo.nombre,
+                        perfilid: data.userInfo.perfilid,
+                        modules: data.modules
+                    }
+
+                    store.dispatch( setUserConfig(userInformation) );
+                    this.openSnackbar('Login exitoso');
+                    //this.props.history.push('/documentacion');
+                }
 
             } else if(request.data.success === false) {
+                this.setState({
+                    isLoading: false
+                });
                 this.openSnackbar('Ocurrió un error, verifique sus credenciales');
             }
     
@@ -300,7 +329,7 @@ class LoginContainer extends Component{
                                         style={{
                                             color: primaryOrange,
                                             textDecoration: 'underline',
-                                            marginTop: '5px'
+                                            marginTop: '15px'
                                         }}
                                     >
                                         ¿No tienes cuenta? Regístrate
@@ -319,7 +348,8 @@ class LoginContainer extends Component{
                                         variant="contained"     
                                         style={{
                                             backgroundColor: primaryOrange,
-                                            color: 'white'
+                                            color: 'white',
+                                            marginTop: '10px'
                                         }}
                                         onClick={() => { this.onLogin() }}
                                     >
@@ -337,4 +367,4 @@ class LoginContainer extends Component{
 
 }
 
-export default LoginContainer;
+export default withRouter(LoginContainer);
