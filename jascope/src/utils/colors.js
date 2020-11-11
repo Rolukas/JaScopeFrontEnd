@@ -1,1 +1,1 @@
-export let primaryOrange = '#FF7E20';
+export let primaryOrange = '#F64155';

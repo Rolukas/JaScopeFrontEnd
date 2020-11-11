@@ -10,6 +10,7 @@ import Hidden from '@material-ui/core/Hidden';
 // Assets
 import { primaryOrange } from '../../../utils/colors';
 import backgroundWallpaper from '../../../assets/background-login.svg';
+import redLogo from '../../../assets/red-logo.svg';
 import loading from '../../../assets/loading.json';
 // API
 import API from '../../../utils/environment';
@@ -184,9 +185,6 @@ class LoginContainer extends Component{
         return(
             <Grid 
                 container
-                style={{
-                    backgroundColor: '#E5E5E5'
-                }}
             >
                 <Snackbar
                     anchorOrigin={{
@@ -202,7 +200,7 @@ class LoginContainer extends Component{
                     <Grid 
                         item 
                         xs={12} 
-                        md={6}
+                        md={8}
                         style={{
                             backgroundImage: `url(${backgroundWallpaper})`,
                             backgroundRepeat: 'no-repeat',
@@ -216,7 +214,7 @@ class LoginContainer extends Component{
                 <Grid 
                     item 
                     xs={12} 
-                    md={6}
+                    md={4}
                     style={{
                         height: '100vh'
                     }}
@@ -224,7 +222,7 @@ class LoginContainer extends Component{
                     <Grid 
                         container
                         style={{
-                            transform: 'translateY(22vh)'
+                            transform: 'translateY(15vh)'
                         }}
                     >
                         <Grid 
@@ -238,6 +236,7 @@ class LoginContainer extends Component{
                                     height: 'auto',
                                     width: '25%'
                                 }}
+                                src={redLogo}
                             />
                             <LightTitle>
                                 Bienvenido a
@@ -254,7 +253,7 @@ class LoginContainer extends Component{
                             <form noValidate autoComplete="off">
                                 <TextField 
                                     style={{
-                                        maxWidth: '300px',
+                                        maxWidth: '350px',
                                         minWidth: '250px',
                                         marginBottom: '20px'
                                     }}
@@ -270,7 +269,7 @@ class LoginContainer extends Component{
                                 <br/>
                                 <TextField 
                                     style={{
-                                        maxWidth: '300px',
+                                        maxWidth: '350px',
                                         minWidth: '250px',
                                         
                                     }}
